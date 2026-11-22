@@ -55,13 +55,19 @@ Where does your detector still fail? Give two or three concrete examples (`pair_
 Your session export is the evidence for this section. Point to it where you can.
 
 - Name up to three decisions you made yourself that changed the result. For each, what had the tool proposed?
+
 - Describe one or two moments when the tool was wrong or misleading. Where in your session did you notice, and what did you do?
 - Is there any part of your submission you would not be comfortable explaining line by line? Which?
 
 ## 5. With another day (max 150 words)
 
 What would you do next, in order? What would have to change for this to work on Copyscape's real traffic?
+With additional time, I would focus on four high-leverage improvements while preserving fast, offline CPU inference:
 
+1. **Larger Boilerplate & IDF Corpus:** Computing `common` shingles and IDF weights from only 1,835 pairs is noisy. Estimating them from a large, diverse web corpus would filter out standard disclaimers and templates much more reliably.
+2. **Offline Hard-Case Augmentation:** Use LLMs offline to generate tricky training pairs from real articles: independent rewrites sharing the exact same facts and numbers (hard negatives), and heavily disguised copies with synonym swaps or reordering (hard positives).
+3. **Entity-Masked & Syntactic Features:** Since the task is about shared wording rather than shared meaning, logical entailment models would cause false positives on independent news reports. Instead, I would compare sentence structure after masking out numbers and proper nouns to separate copied phrasing from shared facts.
+4. **MinHash / LSH Pre-Filtering:** For 25,000-word documents, pre-filtering candidate windows with MinHash before running fine-grained sequence alignments would keep latency flat at much larger scales.
 ## 6. Anything else (optional)
 
 Anything you built, measured or noticed that the sections above do not cover.

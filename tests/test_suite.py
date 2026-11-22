@@ -24,8 +24,10 @@ def feats(src, cand, res=RES, groups=D.BASE_GROUPS):
 
 
 def filler(n_words: int, seed: int) -> str:
+    """Random letter-only pseudo-words (vocabulary ~20k) so n-grams are essentially unique."""
     rng = np.random.RandomState(seed)
-    return " ".join(f"w{i}" for i in rng.randint(0, 20000, n_words))
+    vocab = ["".join(chr(97 + c) for c in rng.randint(0, 26, 6)) for _ in range(20000)]
+    return " ".join(rng.choice(vocab, n_words))
 
 
 class TestCleaning(unittest.TestCase):
